@@ -1,0 +1,110 @@
+{
+  "climate change": [
+    {
+      "url": "https://www.nasa.gov/climate",
+      "title": "NASA Climate Change Overview",
+      "snippet": "Global temperatures have risen 1.1\u00b0C since pre-industrial times, driven primarily by human CO2 emissions.",
+      "domain": "nasa.gov",
+      "published_at": "2023-09-15T00:00:00",
+      "domain_authority": 92.0,
+      "citation_count": 4120,
+      "raw_metadata": {"language": "en", "word_count": 3400}
+    },
+    {
+      "url": "https://www.ipcc.ch/report/ar6",
+      "title": "IPCC Sixth Assessment Report",
+      "snippet": "Human influence has warmed the atmosphere, ocean and land. Widespread and rapid changes have occurred.",
+      "domain": "ipcc.ch",
+      "published_at": "2022-04-04T00:00:00",
+      "domain_authority": 89.0,
+      "citation_count": 8900,
+      "raw_metadata": {"language": "en", "word_count": 120000}
+    },
+    {
+      "url": "https://climatedenialsite.example.com/article",
+      "title": "Why Climate Change Is a Hoax",
+      "snippet": "Scientists disagree about whether human activity causes warming. The data is manipulated.",
+      "domain": "climatedenialsite.example.com",
+      "published_at": "2021-11-01T00:00:00",
+      "domain_authority": 12.0,
+      "citation_count": 3,
+      "raw_metadata": {"language": "en", "word_count": 800}
+    }
+  ],
+  "artificial intelligence": [
+    {
+      "url": "https://arxiv.org/abs/2303.08774",
+      "title": "GPT-4 Technical Report",
+      "snippet": "GPT-4 is a large multimodal model capable of processing image and text inputs and producing text outputs.",
+      "domain": "arxiv.org",
+      "published_at": "2023-03-27T00:00:00",
+      "domain_authority": 88.0,
+      "citation_count": 5500,
+      "raw_metadata": {"language": "en", "word_count": 98000}
+    },
+    {
+      "url": "https://deepmind.com/research/gemini",
+      "title": "Gemini: A Family of Highly Capable Multimodal Models",
+      "snippet": "Gemini outperforms human experts on massive multitask language understanding benchmarks.",
+      "domain": "deepmind.com",
+      "published_at": "2023-12-06T00:00:00",
+      "domain_authority": 85.0,
+      "citation_count": 2100,
+      "raw_metadata": {"language": "en", "word_count": 62000}
+    },
+    {
+      "url": "https://spectrum.ieee.org/ai-winter",
+      "title": "AI Winter May Be Coming Again",
+      "snippet": "Despite recent advances, AI hype cycles historically lead to periods of stagnation and funding collapse.",
+      "domain": "spectrum.ieee.org",
+      "published_at": "2023-06-10T00:00:00",
+      "domain_authority": 76.0,
+      "citation_count": 340,
+      "raw_metadata": {"language": "en", "word_count": 2200}
+    }
+  ],
+  "quantum computing": [
+    {
+      "url": "https://www.ibm.com/quantum",
+      "title": "IBM Quantum Computing",
+      "snippet": "IBM offers cloud-based quantum computing services with processors exceeding 1000 qubits.",
+      "domain": "ibm.com",
+      "published_at": "2023-11-01T00:00:00",
+      "domain_authority": 91.0,
+      "citation_count": 1800,
+      "raw_metadata": {"language": "en", "word_count": 4500}
+    },
+    {
+      "url": "https://nature.com/articles/quantum-supremacy",
+      "title": "Quantum supremacy using a programmable superconducting processor",
+      "snippet": "Google AI demonstrates quantum supremacy, completing a calculation in 200 seconds that would take classical computers 10,000 years.",
+      "domain": "nature.com",
+      "published_at": "2019-10-23T00:00:00",
+      "domain_authority": 95.0,
+      "citation_count": 9200,
+      "raw_metadata": {"language": "en", "word_count": 8100}
+    }
+  ],
+  "default": [
+    {
+      "url": "https://en.wikipedia.org/wiki/Research",
+      "title": "Research - Wikipedia",
+      "snippet": "Research is creative and systematic work undertaken to increase the stock of knowledge.",
+      "domain": "en.wikipedia.org",
+      "published_at": "2024-01-01T00:00:00",
+      "domain_authority": 80.0,
+      "citation_count": 500,
+      "raw_metadata": {"language": "en", "word_count": 12000}
+    },
+    {
+      "url": "https://scholar.google.com",
+      "title": "Google Scholar",
+      "snippet": "Stand on the shoulders of giants. Search the world's scholarly literature.",
+      "domain": "scholar.google.com",
+      "published_at": null,
+      "domain_authority": 87.0,
+      "citation_count": null,
+      "raw_metadata": {}
+    }
+  ]
+}

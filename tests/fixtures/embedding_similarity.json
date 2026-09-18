@@ -1,0 +1,9 @@
+{
+  "https://www.nasa.gov/climate::https://climatedenialsite.example.com/article": 0.08,
+  "https://www.ipcc.ch/report/ar6::https://climatedenialsite.example.com/article": 0.10,
+  "https://www.nasa.gov/climate::https://www.ipcc.ch/report/ar6": 0.82,
+  "https://arxiv.org/abs/2303.08774::https://deepmind.com/research/gemini": 0.78,
+  "https://arxiv.org/abs/2303.08774::https://spectrum.ieee.org/ai-winter": 0.22,
+  "https://deepmind.com/research/gemini::https://spectrum.ieee.org/ai-winter": 0.19,
+  "https://www.ibm.com/quantum::https://nature.com/articles/quantum-supremacy": 0.71
+}

@@ -1,6 +1,6 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "research-agent"
@@ -18,6 +18,13 @@ dev = [
     "pytest>=7.4",
     "pytest-cov>=4.1",
 ]
+test = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+]
+
+[project.scripts]
+research-agent = "research_agent.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -25,3 +32,7 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+
+[tool.coverage.run]
+source = ["src/research_agent"]
+omit = ["tests/*"]

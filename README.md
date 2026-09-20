@@ -2,18 +2,134 @@
 
 Multi-hop research agent with citation graph, source grading, and contradiction detection.
 
-**Domain:** Agentic AI
-**Language:** python
-**Demonstrates:** You can orchestrate long-horizon reasoning safely.
+**Domain:** Agentic AI  
+**Language:** Python 3.10+  
+**Demonstrates:** Long-horizon multi-hop reasoning with safe, human-confirmed output.
 
-## 7-day build plan
+---
 
-- [ ] Day 1: Scaffold the project with a src/research_agent package, define core data models (ResearchQuery, Source, Hop, CitationNode) using dataclasses/Pydantic, implement a mock search backend that returns simulated web results from a local JSON fixture file, and write unit tests for all models and the mock search interface.
-- [ ] Day 2: Build the multi-hop reasoning engine that accepts a query, iteratively expands sub-questions up to a configurable depth, calls the mock search backend each hop, stores retrieved sources in a HopChain object, and write tests verifying the hop chain grows correctly and terminates at max depth.
-- [ ] Day 3: Implement source grading by adding a SourceGrader module that scores each retrieved source on simulated signals (domain authority, recency, citation count from fixtures), attaches a grade and confidence to each CitationNode, and write tests covering edge cases like missing metadata and duplicate URLs.
-- [ ] Day 4: Build a CitationGraph class using networkx to connect CitationNodes with directed edges representing 'cited-by' and 'supports' relationships, implement graph traversal helpers to find authority hubs and orphan sources, and write tests for graph construction, edge insertion, and traversal correctness.
-- [ ] Day 5: Add a ContradictionDetector that compares claim snippets across CitationNodes using simple keyword/semantic heuristics (mocked embedding similarity via a deterministic fixture map), flags contradicting source pairs with an explanation string, and write tests with fixture data that includes known contradictions.
-- [ ] Day 6: Build the ReportCompiler that walks the finalized CitationGraph, assembles a structured final report with sections (summary, findings, contradictions, graded sources), inlines numbered citations, renders to both plain text and Markdown files, adds a human-in-the-loop confirmation prompt before writing output files, and write integration tests using temp directories.
-- [ ] Day 7: Wire everything into a CLI entry point (research_agent/cli.py) using argparse with flags for query, max-hops, output format, and verbosity, add end-to-end integration tests that run the full pipeline on fixture data and assert report structure and citation counts, and package the project with pyproject.toml including optional dev/test extras.
+## Architecture
 
-_A comprehensive README with an architecture diagram is generated on Day 7._
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         CLI (cli.py)                            │
+│  argparse: --query --max-hops --format --output-dir --verbose   │
+└────────────────────────────┬────────────────────────────────────┘
+                             │  run_pipeline()
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   MultiHopEngine (engine.py)                    │
+│  ResearchQuery ──► SubQuestionExpander ──► MockSearchBackend    │
+│          └─────────────── HopChain ◄───────────────────┘        │
+└────────────────────────────┬────────────────────────────────────┘
+                             │  HopChain
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                 CitationGraph (citation_graph.py)               │
+│  CitationNode (Source + hop_index + grade + claim_snippet)      │
+│  Directed edges: cited-by | supports                            │
+│  Helpers: authority_hubs(), orphan_nodes(), subgraph_by_hop()   │
+└──────────┬────────────────────────────┬───────────────────────-─┘
+           │ SourceGrader (grader.py)   │ ContradictionDetector
+           │ domain_authority           │   (contradiction_detector.py)
+           │ recency                    │ MockEmbeddingStore
+           │ citation_count             │ negation heuristic
+           │ → letter grade A-F         │ → ContradictionRecord[]
+           └────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│               ReportCompiler (report_compiler.py)               │
+│  Sections: Summary | Findings | Contradictions | Graded Sources │
+│  Renders: plain text (.txt) and Markdown (.md)                  │
+│  Human-in-the-loop confirmation before writing files            │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Quick Start
+
+### Install
+
+```bash
+pip install -e ".[dev]"
+```
+
+### Run via CLI
+
+```bash
+# Basic usage (prompts for confirmation before writing)
+research-agent --query "climate change" --max-hops 2
+
+# Auto-confirm and write Markdown only
+research-agent --query "quantum computing" --max-hops 3 --format md --yes
+
+# Verbose mode with custom output directory
+research-agent --query "artificial intelligence" --output-dir ./reports --verbose
+```
+
+### CLI Flags
+
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--query` | `-q` | *(required)* | Research question or topic |
+| `--max-hops` | `-n` | `3` | Max reasoning hops (1-10) |
+| `--format` | `-f` | `txt md` | Output format(s): `txt` and/or `md` |
+| `--output-dir` | `-o` | `./output` | Directory for report files |
+| `--verbose` | `-v` | off | Enable debug logging |
+| `--yes` | `-y` | off | Skip confirmation prompt |
+
+### Run Tests
+
+```bash
+pytest
+pytest --cov=research_agent --cov-report=term-missing
+```
+
+---
+
+## Project Structure
+
+```
+.
+├── src/
+│   └── research_agent/
+│       ├── __init__.py
+│       ├── cli.py                    # CLI entry point
+│       ├── models.py                 # Pydantic data models
+│       ├── engine.py                 # Multi-hop engine + HopChain
+│       ├── grader.py                 # SourceGrader (A-F grading)
+│       ├── citation_graph.py         # CitationGraph (networkx)
+│       ├── contradiction_detector.py # ContradictionDetector
+│       ├── report_compiler.py        # ReportCompiler
+│       └── backends/
+│           ├── __init__.py
+│           └── mock_search.py        # MockSearchBackend
+├── tests/
+│   ├── fixtures/
+│   │   ├── mock_results.json         # Simulated search results
+│   │   └── embedding_similarity.json # Mocked embedding scores
+│   ├── test_models.py
+│   ├── test_mock_search.py
+│   ├── test_engine.py
+│   ├── test_grader.py
+│   ├── test_citation_graph.py
+│   ├── test_contradiction_detector.py
+│   ├── test_report_compiler.py
+│   └── test_cli.py                   # CLI + end-to-end tests
+├── pyproject.toml
+└── README.md
+```
+
+---
+
+## 7-Day Build Plan
+
+- [x] Day 1: Core data models + mock search backend
+- [x] Day 2: Multi-hop reasoning engine + HopChain
+- [x] Day 3: SourceGrader (domain authority, recency, citation count)
+- [x] Day 4: CitationGraph with networkx + traversal helpers
+- [x] Day 5: ContradictionDetector (heuristics + mocked embeddings)
+- [x] Day 6: ReportCompiler (structured report, txt/md, human confirmation)
+- [x] Day 7: CLI entry point, end-to-end tests, pyproject.toml packaging
